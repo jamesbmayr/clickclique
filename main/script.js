@@ -71,7 +71,8 @@
 /*** click ***/
 	/* submitClick */
 		window.clicks = []
-		document.addEventListener("click", submitClick)
+		document.addEventListener("mousedown", submitClick)
+		document.addEventListener("touchstart", submitClick)
 		function submitClick(event) {
 			var x = ((event.clientX !== undefined) ? event.clientX : event.targetTouches[0].clientX)
 			var y = ((event.clientY !== undefined) ? event.clientY : event.targetTouches[0].clientY)
@@ -94,12 +95,17 @@
 					flash.style.background = "#" + click.color
 					flash.style.left = click.x + "px"
 					flash.style.top  = click.y + "px"
-				document.body.appendChild(flash)
+				document.getElementById("flashes").appendChild(flash)
+
+			// expand
+				setTimeout(function() {
+					flash.setAttribute("expand", true)
+				}, 5)
 
 			// remove in 2/10s
 				setTimeout(function() {
 					flash.remove()
-				}, 200)
+				}, 300)
 		}
 
 	/* paintChart */
@@ -120,12 +126,14 @@
 					chart.innerHTML = ""
 
 			// append wedges
-				for (var c in colors) {
+				var keys = Object.keys(colors)
+					keys.sort()
+
+				for (var k in keys) {
 					var wedge = document.createElement("span")
 						wedge.className = "wedge"
-						wedge.style.background = "#" + c
-						wedge.innerHTML = colors[c]
-						wedge.style.width = colors[c] + "%"
+						wedge.style.background = "#" + keys[k]
+						wedge.style.width = colors[keys[k]] + "%"
 					chart.appendChild(wedge)
 				}	
 		}

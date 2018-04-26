@@ -51,8 +51,9 @@
 							main.logStatus("new" + " @ " + request.ip + "\n[" + request.method + "] " + request.path.join("/") + "\n" + JSON.stringify(request.method == "GET" ? request.get : ""))
 						}
 
-					// where next ?
-						main.determineSession(request, routeRequest)
+					// bot ? --> route
+						request.bot = main.isBot(request.headers["user-agent"]) || false
+						routeRequest()
 						
 				}
 				catch (error) {
@@ -190,7 +191,8 @@
 						request.ip      = request.connection.remoteAddress || request.socket._peername.address
 
 					// get session and wait for messages
-						main.determineSession(request, routeSocket)
+						request.bot = main.isBot(request.headers["user-agent"]) || false
+						routeSocket()
 				}
 				catch (error) {
 					_400("unable to parse socket")
@@ -221,7 +223,7 @@
 						request.connection.on("message", function (message) {
 							// get post data
 								request.post = JSON.parse(message.utf8Data) || null
-								main.logMessage(request.color + " @ " + request.ip + "\n[WEBSOCKET]\n" + JSON.stringify(request.post))
+								main.logStatus(request.color + " @ " + request.ip + "\n[WEBSOCKET]\n" + JSON.stringify(request.post))
 							
 							// update data
 								if (request.post && request.post.x !== undefined && request.post.y !== undefined) {

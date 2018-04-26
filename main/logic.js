@@ -19,12 +19,6 @@
 			console.log(" - " + status)
 		}
 
-	/* logMessage */
-		module.exports.logMessage = logMessage
-		function logMessage(message) {
-			console.log(" - " + new Date().toLocaleString() + ": " + message)
-		}
-
 /*** maps ***/
 	/* getEnvironment */
 		module.exports.getEnvironment = getEnvironment
@@ -54,39 +48,7 @@
 			}
 		}
 
-	/* getAsset */
-		module.exports.getAsset = getAsset
-		function getAsset(index) {
-			try {
-				switch (index) {
-					case "logo":
-						return "logo.png"
-					break
-
-					case "meta":
-						return '<meta charset="UTF-8"/>\
-								<meta name="description" content="ClickClique is a PVP real-time clicking competition."/>\
-								<meta name="keywords" content="game,click,compete,competition,clicking,pvp,realtime"/>\
-								<meta name="author" content="James Mayr"/>\
-								<meta property="og:title" content="ClickClique: a pvp real-time clicking competition"/>\
-								<meta property="og:url" content="https://clickclique.herokuapp.com"/>\
-								<meta property="og:description" content="ClickClique is a PVP real-time clicking competition."/>\
-								<meta property="og:image" content="https://clickclique.herokuapp.com"/>\
-								<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>'
-					break
-
-					default:
-						return null
-					break
-				}
-			}
-			catch (error) {
-				logError(error)
-				return false
-			}
-		}
-
-/*** checks ***/
+/*** tools ***/
 	/* isBot */
 		module.exports.isBot = isBot
 		function isBot(agent) {
@@ -143,7 +105,6 @@
 			}
 		}
 
-/*** tools ***/		
 	/* renderHTML */
 		module.exports.renderHTML = renderHTML
 		function renderHTML(request, path, callback) {
@@ -208,26 +169,6 @@
 			catch (error) {
 				logError(error)
 				return null
-			}
-		}
-
-	/* determineSession */
-		module.exports.determineSession = determineSession
-		function determineSession(request, callback) {
-			try {
-				// prevent websockets for bots
-					if (isBot(request.headers["user-agent"])) {
-						request.bot = true
-					}
-					else {
-						request.bot = false
-					}
-
-				callback()
-			}
-			catch (error) {
-				logError(error)
-				callback()
 			}
 		}
 
