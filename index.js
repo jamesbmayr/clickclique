@@ -88,6 +88,22 @@
 										catch (error) {_403(error)}
 									break
 
+								// j-logo
+									case (/\/j[.]png$/).test(request.url):
+										try {
+											response.writeHead(200, {"Content-Type": "image/png"})
+											fs.readFile("./main/j.png", function (error, file) {
+												if (error) {
+													_404(error)
+												}
+												else {
+													response.end(file, "binary")
+												}
+											})
+										}
+										catch (error) {_403(error)}
+									break
+
 								// stylesheet
 									case (/\/stylesheet[.]css$/).test(request.url):
 										try {
