@@ -72,7 +72,6 @@
 	/* submitClick */
 		window.clicks = []
 		document.addEventListener("mousedown", submitClick)
-		document.addEventListener("touchstart", submitClick)
 		function submitClick(event) {
 			var x = ((event.clientX !== undefined) ? event.clientX : event.targetTouches[0].clientX)
 			var y = ((event.clientY !== undefined) ? event.clientY : event.targetTouches[0].clientY)
