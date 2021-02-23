@@ -10,7 +10,7 @@
   "author": "James Mayr",
   "license": "ISC",
   "engines": {
-    "node": "6.11.1"
+    "node": "12.18.4"
   },
   "dependencies": {
     "websocket": "^1.0.25"
