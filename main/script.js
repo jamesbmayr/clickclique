@@ -21,7 +21,6 @@
 						clearInterval(socket.pingLoop)
 					}
 					socket.pingLoop = setInterval(function() {
-						console.log("HERE")
 						fetch("/ping", {method: "GET"})
 							.then(function(response){ return response.json() })
 							.then(function(data) {})
