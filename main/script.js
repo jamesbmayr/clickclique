@@ -1,6 +1,7 @@
 /*** socket ***/
 	// on load
 		var socket = null
+		var pingInterval = 60 * 1000
 		if (window.human) {
 			createSocket()
 		}
@@ -14,6 +15,17 @@
 					socket.onopen = function() {
 						socket.send(null)
 					}
+
+				// pingLoop
+					if (socket.pingLoop) {
+						clearInterval(socket.pingLoop)
+					}
+					socket.pingLoop = setInterval(function() {
+						console.log("HERE")
+						fetch("/ping", {method: "GET"})
+							.then(function(response){ return response.json() })
+							.then(function(data) {})
+					}, pingInterval)
 
 				// error
 					socket.onerror = function(error) {

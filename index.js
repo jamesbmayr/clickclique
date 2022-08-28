@@ -67,6 +67,17 @@
 					// get
 						if (request.method == "GET") {
 							switch (true) {
+								// ping
+									case (/^\/ping\/?$/).test(request.url):
+										try {
+											response.writeHead(200, {
+												"Content-Type": "text/json"
+											})
+											response.end( JSON.stringify({success: true, timestamp: new Date().getTime()}) )
+										}
+										catch (error) {_403(error)}
+									break
+									
 								// logo
 									case (/\/favicon[.]ico$/).test(request.url):
 									case (/\/icon[.]png$/).test(request.url):
