@@ -10,6 +10,7 @@
 		function createSocket() {
 			try {
 				socket = new WebSocket(location.href.replace("http","ws"))
+				socket.keepPinging = false
 
 				// open
 					socket.onopen = function() {
@@ -21,9 +22,12 @@
 						clearInterval(socket.pingLoop)
 					}
 					socket.pingLoop = setInterval(function() {
-						fetch("/ping", {method: "GET"})
-							.then(function(response){ return response.json() })
-							.then(function(data) {})
+						if (socket.keepPinging) {
+							socket.keepPinging = false
+							fetch("/ping", {method: "GET"})
+								.then(function(response){ return response.json() })
+								.then(function(data) {})
+						}
 					}, pingInterval)
 
 				// error
@@ -39,6 +43,7 @@
 				// message
 					socket.onmessage = function(message) {
 						try {
+							socket.keepPinging = true
 							var post = JSON.parse(message.data)
 							if (post && (typeof post == "object")) {
 								receivePost(post)
